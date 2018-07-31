@@ -47,13 +47,34 @@ def apply_clearance(cart)
 end
 
 def checkout(cart, coupons)
- cart = consolidate_cart(cart: cart)
-  cart = apply_coupons(cart: cart, coupons: coupons)
-  cart = apply_clearance(cart: cart)
-  result = 0
-  cart.each do |food, info|
-    result += (info[:price] * info[:count]).to_f
-  end
-  result > 100 ? result * 0.9 : result
+# cart = consolidate_cart(cart: cart)
+#   cart = apply_coupons(cart: cart, coupons: coupons)
+#   cart = apply_clearance(cart: cart)
+#   result = 0
+#   cart.each do |food, info|
+#     result += (info[:price] * info[:count]).to_f
+#   end
+#   result > 100 ? result * 0.9 : result
 
-end
+# end
+updated_cart = consolidate_cart(cart)
+ 
+  updated_cart = apply_coupons(updated_cart, coupons)
+  updated_cart = apply_clearance(updated_cart)
+  
+  cost_array = [ ]
+  
+  updated_cart.each do |item_name, attributes|
+    cost_array.push(attributes[:price]*attributes[:count])
+  end 
+  
+  total_cost = 0
+  cost_array.each do |price|
+    total_cost = total_cost + price
+  end
+  
+  if total_cost > 100
+    total_cost = 0.9*total_cost
+  end  
+    
+   total_cost
